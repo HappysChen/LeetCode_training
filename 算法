@@ -1,3 +1,30 @@
+A、数组类
+ 一、二分查找
+ 
+  1、二分法第一种写法
+    第一种写法，我们定义 target 是在一个在左闭右闭的区间里，也就是[left, right] （这个很重要非常重要）。
+
+    区间的定义这就决定了二分法的代码应该如何写，因为定义target在[left, right]区间，所以有如下两点：
+
+    while (left <= right) 要使用 <= ，因为left == right是有意义的，所以使用 <=
+    if (nums[middle] > target) right 要赋值为 middle - 1，因为当前这个nums[middle]一定不是target，那么接下来要查找的左区间结束下标位置就是 middle - 1
+ 2、二分法第二种写法
+    如果说定义 target 是在一个在左闭右开的区间里，也就是[left, right) ，那么二分法的边界处理方式则截然不同。
+
+    有如下两点：
+
+    while (left < right)，这里使用 < ,因为left == right在区间[left, right)是没有意义的
+    if (nums[middle] > target) right 更新为 middle，因为当前nums[middle]不等于target，去左区间继续寻找，而寻找区间是左闭右开区间，所以right更新为middle，
+    即：下一个查询区间不会去比较nums[middle]。
+
+题型：在排序数组中查找元素的第一个和最后一个位置
+     给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。如果数组中不存在目标值 target，返回 [-1, -1]。
+
+寻找左右边界:分别用两次二分查找进行
+
+
+
+
 一、中心扩展法
     中心拓展法的思路是，以原始字符串中的任意一个位置开始（可以是一个字符，也可以是两个字符中间的位置），向两边拓展，如果两边的字母相同，我们就可以继续扩展。
 例如，用 P(i,j)表示字符串 s 的第 i 到 jj个字母组成的串，从 P(i+1,j-1)扩展到 P(i,j)；如果两边的字母不同，我们就可以停止扩展，因为在这之后的子串都不能是回文串了。
@@ -8,7 +35,7 @@ class Solution
 {
    string LongestPalindrome(string s){
      if(s.length()==0 || s==" ") return 0;
-     int left=0;  //左部分
+     int left=0;    //左部分
      int right =0; //右部分
      int len =0;   //记录回文字符串数
      int maxlen =0;//计算最长的
