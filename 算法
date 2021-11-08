@@ -17,7 +17,7 @@ A、数组类
     if (nums[middle] > target) right 更新为 middle，因为当前nums[middle]不等于target，去左区间继续寻找，而寻找区间是左闭右开区间，所以right更新为middle，
     即：下一个查询区间不会去比较nums[middle]。
 
-题型：在排序数组中查找元素的第一个和最后一个位置
+题型1：在排序数组中查找元素的第一个和最后一个位置
      给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。如果数组中不存在目标值 target，返回 [-1, -1]。
 
 寻找左右边界:分别用两次二分查找进行
@@ -80,6 +80,35 @@ private:
         return leftBorader;
     }
 };
+
+题型2：实现 pow(x, n) ，即计算 x 的 n 次幂函数（即，xn）。
+   分析：要实现x的n次幂函数，需要判断n的情况：
+                                              1、n=0,pow=1;  
+                                              2、n<0,pow=1.0/pow;
+                                              3、n>0,奇数和偶数
+     n为奇数时，如2的5次方，即n=5，可分为，n=(4+1),因此，在偶次幂的基础上再乘以基数
+     n为偶数时，就很简单，就一直递归。
+                                                                                                                                       
+class Solution {
+public:
+    double myPow(double x, int n) {
+     double sum = 1.00000;
+		
+        long long N=n;
+		sum=n>0?QuikMui(x,N):1.0/QuikMui(x,-N);
+        return sum;
+    }
+    
+    double QuikMui(double x,long long N)
+    {
+        if(N==0) return 1.0;
+        double y=QuikMui(x,N/2);
+        return N%2==0? y*y:y*y*x;
+    }
+
+};
+
+二、移除元素（重点是：快慢指针，即双指针）
 
 
 
