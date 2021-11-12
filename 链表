@@ -97,9 +97,42 @@
   linkedList.get(1);            //返回3
 
 
+  代码看：电脑VS的DesignLink文件
+  
+  要掌握添加头结点、添加尾节点
+ 
+  void addAtHead(int val) {      //添加头结点
+        ListNode* newNode = new ListNode(val);
+        newNode->next = mylist->next;
+        mylist->next = newNode;
+        size++;  //节点数自加
+      
+        //this = list;
+    }
 
-
-
+    void addAtTail(int val) {      //添加尾节点
+        ListNode* newNode = new ListNode(val);
+        ListNode* cur = mylist;
+        /*
+        if (cur->next == nullptr)
+        {
+            mylist->next = newNode;
+            newNode->next = mylist->next;
+            size++;
+            delete cur;
+            return ;
+        }
+        */
+        ListNode* temp = mylist;
+        while (temp->next!=nullptr)
+        {
+            temp = temp->next;
+        }
+        temp->next = newNode;
+        //newNode->next = nullptr;
+        size++;
+    }
+ 
 
 
 
