@@ -133,6 +133,65 @@
         size++;
     }
  
+题型3、反转链表
+     给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+     输入：head = [1,2,3,4,5]
+     输出：[5,4,3,2,1]
+ 
+     首先是要翻转，所以可以用双指针法，链表的双指针法与数组的不同，链表中前驱指针需要一个变量保存下一个节点（当然也可以用头结点来进行遍历，然后重新复制给前驱节点）
+     ListNode* reverseList(ListNode* head) {
+      if (head == nullptr || head->next == nullptr)return head;
+		ListNode* cur =head;
+		ListNode* pre = nullptr; //必须要指向为NULL
+		//ListNode* temp;        //保存cur下一个节点
+		//pre->next = nullptr;
+		/*
+		while (cur!= nullptr)
+		{   
+			temp = cur->next;			
+			cur->next = pre;
+			pre = cur;
+			
+			cur = temp;
+					
+		}*/
+		while (head != nullptr)
+		{
+			cur = head;
+			head = head->next;
+			cur->next = pre;
+			pre = cur;
+		}
+        //delete cur;
+        //delete temp;
+		return pre;
+    }
+ 
+ 也可以用递归法：逻辑和双指针法是一样的
+ 
+ 同样是当cur为空的时候循环结束，不断将cur指向pre的过程。
+ 关键是初始化的地方，可能有的同学会不理解， 可以看到双指针法中初始化 cur = head，pre = NULL，在递归法中可以从如下代码看出初始化的逻辑也是一样的，只不过写法变了。
+  
+  
+还有自己对链表还有一些理解误区：
+   1、认为遍历到最后一个节点的话，需要while(head.next!=nullptr),其实不是，而是while(head!=nullptr)，需要用到while(head.next!=nullptr)时，则是要提前查看下一个节点，
+      如上面删除链表元素的操作。if (cur->next->val == val){} 这样就可以对下一个节点的提前操作
+   2、temp=cur.next; temp是用来保存cur的下一个节点，不管cur.next指向谁都不会影响temp指向cur的下一个节点，不要认为，cur.next=pre;temp就指向了pre了；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
