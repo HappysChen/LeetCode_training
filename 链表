@@ -178,15 +178,73 @@
       如上面删除链表元素的操作。if (cur->next->val == val){} 这样就可以对下一个节点的提前操作
    2、temp=cur.next; temp是用来保存cur的下一个节点，不管cur.next指向谁都不会影响temp指向cur的下一个节点，不要认为，cur.next=pre;temp就指向了pre了；
 
+题型4、两两交换链表中的节点
+      给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。
+  
+  分析：这题是要交换头结点的，所以要创建一个虚节点来指向头结点。
+        
+  题解1、交换方法：
+         
+     dm--》1--》2--》3--》4
+     
+     步骤一：创建一个节点cur指向虚节点 dm, 然后指向第2个节点
+     步骤二：节点2指向节点1
+     步骤三：节点1指向节点3
+     然后：cur.next指向cur.next.next;
+     
+     最后将节点dm->next返回
+              
+     要保护的节点：要交换的两个节点，即头结点和头结点的下一个节点，同时也要保护头结点  
+
+     循环的条件：下一个节点和下一个节点的节点不为空
+     
+              while (cur->next!=nullptr && cur->next->next!=nullptr )
+		{
+			/*
+			temp = cur->next;
+			temp1 = cur->next->next->next;
+
+			cur->next = cur->next->next;
+			cur->next->next = temp;           //为什么是cur.next.next 指向temp 而不是cur.next.next.next,
+											  //是因为cur.next已经指向了cur.next.next了，
+											  // 所以前部分cur.next的下一个next就是cur.next.next.next
+			cur->next->next->next = temp1;    //这个也是跟上面一样的理解
+
+			cur = cur->next->next;
+			*/
+			
+		}
+
+ 题解2、 
+             dm--》1--》2--》3--》4
+     
+	     步骤一：创建一个节点cur指向虚节点 dm, 然后.next指向第2个节点
+	     步骤二：节点1指向节点3
+	     步骤三：节点2指向节点1
+	     
+	     然后节点cur指向右边节点
+
+     最后将节点dm->next返回
+              
+     要保护的节点：要交换的两个节点，即头结点和头结点的下一个节点，同时也要保护头结点  
+
+     循环的条件：下一个节点和下一个节点的节点不为空
+
+     ListNode* l = cur->next;
+     ListNode* r = cur->next->next;
+
+     cur->next = r;	
+     l->next = r->next;
+     r->next = l;
+     cur = r;
+
+这种方法比第一种方法比较好理解：但疑问是：为什么先是步骤二先才到步骤三
 
 
 
-
-
-
-
-
-
+总结：
+    1、当链表中的操作需要改变头结点，则创建一个虚节点来指向原链表的头结点，保护头结点。
+    2、如果想不明白逻辑交换，则多创建几个结点来保护结点。
 
 
 
