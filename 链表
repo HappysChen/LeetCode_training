@@ -245,6 +245,48 @@
 总结：
     1、当链表中的操作需要改变头结点，则创建一个虚节点来指向原链表的头结点，保护头结点。
     2、如果想不明白逻辑交换，则多创建几个结点来保护结点。
+    3、对于链表的题：要确定需要保护的哪些节点，边界是什么
+    4、是否需要用到双指针
+    
+ 例如下题：
+  
+ 题型4、删除链表的倒数第 N 个结点
+       给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+       
+       输入：head = [1,2,3,4,5], n = 2
+       输出：[1,2,3,5]
+  分析：
+       双指针的经典应用，如果要删除倒数第n个节点，让fast移动n步，然后让fast和slow同时移动，直到fast指向链表末尾。删掉slow所指向的节点就可以了。
+       就是要fast与low之间相隔n个节点，这时，fast与low一起走，直到fast走到链表末尾时，此时low的下一个节点就是要删除的节点。
+       
+ 步骤1：由于有可能是删除头结点，所以需要改变头结点，所以要创建一个虚拟节点更方便。
+ 步骤2：没有需要保护的节点
+ 步骤3：边界，节点不为空 且 n--
+ 步骤4：fast指针提前下一个节点，即需要走n+1个节点，这样fast和low才能间隔n个节点
+ 
+ 最后返回 dm.next。
+ 
+        代码：
+               if (head == nullptr) return head;
+		ListNode* dm = new ListNode(0);
+		dm->next = head;
+		ListNode* fast = dm;
+		ListNode* low = dm;
+		while (fast != nullptr && n--)
+		{
+			fast = fast->next;
+		}
+		fast = fast->next;
+		while (fast != nullptr)
+		{
+			fast = fast->next;
+			low = low->next;
+		}
+		//low = low->next;
+		low->next = low->next->next;
+		return dm->next;
+
+
 
 
 
