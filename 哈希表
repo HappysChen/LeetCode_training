@@ -124,6 +124,117 @@
                       }
                   };
 
+   题型3、快乐数
+        编写一个算法来判断一个数 n 是不是快乐数。
+
+	「快乐数」定义为：
+
+	对于一个正整数，每一次将该数替换为它每个位置上的数字的平方和。
+	然后重复这个过程直到这个数变为 1，也可能是 无限循环 但始终变不到 1。
+	如果 可以变为  1，那么这个数就是快乐数。
+	如果 n 是快乐数就返回 true ；不是，则返回 false 。
+
+
+
+	示例 1：
+
+	输入：n = 19
+	输出：true
+	解释：
+	12 + 92 = 82
+	82 + 22 = 68
+	62 + 82 = 100
+	12 + 02 + 02 = 1
+ 
+  解题1、  
+         题目中说了会 无限循环，那么也就是说求和的过程中，sum会重复出现，这对解题很重要！当我们遇到了要快速判断一个元素是否出现集合里的时候，就要考虑哈希法了。
+	 本题还有一个较难的地方是如何获取每一位
+             int getSum(int n)
+		{
+			int sum = 0;
+			while (n)
+			{
+				sum += (n % 10) * (n % 10);
+				n= n/10;
+			}
+			return sum;
+		}
+
+
+	bool isHappy(int n) {
+		unordered_set<int> et;
+		int sum = getSum(n);
+		while (1)
+		{
+			if (sum == 1)return true;
+			else
+			{
+				if (et.find(sum) != et.end())
+				{
+					return false;
+				}
+				et.insert(sum);
+				sum = getSum(sum);
+			}
+		}
+	}
+
+   题解2、网友真特娘的人才！ 用快慢指针
+      方法：
+	使用 “快慢指针” 思想，找出循环：“快指针” 每次走两步，“慢指针” 每次走一步，当二者相等时，即为一个循环周期。此时，判断是不是因为 1 引起的循环，是的话就是快乐数，否则不是快乐数。
+	注意：此题不建议用集合记录每次的计算结果来判断是否进入循环，因为这个集合可能大到无法存储；另外，也不建议使用递归，同理，如果递归层次较深，会直接导致调用栈崩溃。
+	      不要因为这个题目给出的整数是 int 型而投机取巧。
+
+        int bitSquareSum(int n) {
+        int sum = 0;
+        while(n > 0)
+        {
+            int bit = n % 10;
+            sum += bit * bit;
+            n = n / 10;
+        }
+        return sum;
+      }
+    
+    bool isHappy(int n) {
+        int slow = n, fast = n;
+        do{
+            slow = bitSquareSum(slow);
+            fast = bitSquareSum(fast);
+            fast = bitSquareSum(fast);
+        }while(slow != fast);
+        
+        return slow == 1;
+    }
+	 
+   题型3、两数之和
+        给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+
+	你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+
+	你可以按任意顺序返回答案。
+
+	示例 1：
+
+	输入：nums = [2,7,11,15], target = 9
+	输出：[0,1]
+	解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+        
+    class Solution {
+    public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        std::unordered_map <int,int> map;
+        for(int i = 0; i < nums.size(); i++) {
+            auto iter = map.find(target - nums[i]);
+            if(iter != map.end()) {
+                return {iter->second, i};
+            }
+            map.insert(pair<int, int>(nums[i], i));
+        }
+        return {};
+    }
+};
+
 
 
 
