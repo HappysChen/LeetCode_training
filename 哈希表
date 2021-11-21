@@ -235,22 +235,120 @@
     }
 };
 
+   题型4、四数相加II
+                给定四个包含整数的数组列表 A , B , C , D ,计算有多少个元组 (i, j, k, l) ，使得 A[i] + B[j] + C[k] + D[l] = 0。
 
+		为了使问题简单化，所有的 A, B, C, D 具有相同的长度 N，且 0 ≤ N ≤ 500 。所有整数的范围在 -2^28 到 2^28 - 1 之间，最终结果不会超过 2^31 - 1 。
 
+		例如:
 
+		输入: A = [ 1, 2] B = [-2,-1] C = [-1, 2] D = [ 0, 2] 输出: 2 解释: 两个元组如下:
 
+		(0, 0, 0, 1) -> A[0] + B[0] + C[0] + D[1] = 1 + (-2) + (-1) + 2 = 0
+		(1, 1, 0, 0) -> A[1] + B[1] + C[0] + D[0] = 2 + (-1) + (-1) + 0 = 0
 
+        而这道题目是四个独立的数组，只要找到A[i] + B[j] + C[k] + D[l] = 0就可以，不用考虑有重复的四个元素相加等于0的情况
 
+        本题解题步骤：
 
+	首先定义 一个unordered_map，key放a和b两数之和，value 放a和b两数之和出现的次数。
+	遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中。
+	定义int变量count，用来统计a+b+c+d = 0 出现的次数。
+	在遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就用count把map中key对应的value也就是出现次数统计出来。
+	最后返回统计值 count 就可以了
 
+    class Solution {
+    public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        unordered_map<int, int> umap; //key:a+b的数值，value:a+b数值出现的次数
+        // 遍历大A和大B数组，统计两个数组元素之和，和出现的次数，放到map中
+        for (int a : A) {
+            for (int b : B) {
+                umap[a + b]++;
+            }
+        }
+        int count = 0; // 统计a+b+c+d = 0 出现的次数
+        // 在遍历大C和大D数组，找到如果 0-(c+d) 在map中出现过的话，就把map中key对应的value也就是出现次数统计出来。
+        for (int c : C) {
+            for (int d : D) {
+                if (umap.find(0 - (c + d)) != umap.end()) {
+                    count += umap[0 - (c + d)];
+                }
+            }
+        }
+        return count;
+    }
+};
 
+   题型5、赎金信
+        
+	为了不在赎金信中暴露字迹，从杂志上搜索各个需要的字母，组成单词来表达意思。
 
+	给你一个赎金信 (ransomNote) 字符串和一个杂志(magazine)字符串，判断 ransomNote 能不能由 magazines 里面的字符构成。
 
+	如果可以构成，返回 true ；否则返回 false 。
 
+	magazine 中的每个字符只能在 ransomNote 中使用一次。
 
+        示例 1：
 
+	输入：ransomNote = "a", magazine = "b"
+	输出：false
+ 
+  题解1、因为题目所只有小写字母，那可以采用空间换取时间的哈希策略， 用一个长度为26的数组还记录magazine里字母出现的次数。
 
+	然后再用ransomNote去验证这个数组是否包含了ransomNote所需要的所有字母。
 
+	依然是数组在哈希法中的应用。
 
+	一些同学可能想，用数组干啥，都用map完事了，其实在本题的情况下，使用map的空间消耗要比数组大一些的，因为map要维护红黑树或者哈希表，
+	而且还要做哈希函数，是费时的！数据量大的话就能体现出来差别了。 所以数组更加简单直接有效！
+        
+	该方法的思想跟题型1差不多。
+	
+        bool canConstruct(string ransomNote, string magazine) {
+        int record[26]={0};
+        for(int i=0;i<magazine.length();i++)
+        {
+            record[magazine[i]-'a']++;
+        }
+
+        for(int i=0;i<ransomNote.length();i++)
+        {
+            record[ransomNote[i]-'a']--;
+            if(record[ransomNote[i]-'a']<0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+  题解2、直接在string里面操作，
+     bool canConstruct(string ransomNote, string magazine) {
+        for(int i=0;i<ransomNote.length();i++)
+        {
+            int j=magazine.find(ransomNote[i]);
+            if(j!=-1)
+            {
+                magazine[j]='0';
+                continue;
+            }
+            else 
+              return false;
+        }
+        return true;
+    }
+    
+    居然忘记string里面的find()函数操作
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
