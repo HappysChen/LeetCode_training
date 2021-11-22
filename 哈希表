@@ -355,7 +355,84 @@
 	输入：nums = [-1,0,1,2,-1,-4]
 	输出：[[-1,-1,2],[-1,0,1]]
 
-    
+   分析：本题是需要不重复的三元组，极有可能是出现相同的组合。因此需要排序、同时最主要的是去重
+      
+   题解1、哈希表法：
+        用哈希表的方法主要用到find这个函数擦操作。
+        vector<vector<int>>threeSum(vector<int>& nums)
+	{
+		vector<vector<int>>vec;
+		if (nums.size() == 0) return vec;
+		sort(nums.begin(), nums.end());  //排序
+		for (int i = 0; i < nums.size(); i++)
+		{
+			if (nums[i] > 0) return vec;   //如果第一个元素就大于零，就不用执行了
+
+			if (i > 0 && nums[i] == nums[i - 1]) continue; //去重
+			unordered_set<int >st;            //存放a+b的和
+			for (int j = i + 1; j < nums.size(); j++)
+			{
+				if (j > i + 2 && nums[j] == nums[j - 1] && nums[j - 1] == nums[j - 2]) //去重
+				{
+					continue;
+				}
+				else
+				{
+					int c = -(nums[i] + nums[j]);
+					if (st.find(c) != st.end())
+					{
+						vec.push_back({nums[i],nums[j],c});
+						st.erase(c);     //去重
+					}
+					else
+					{
+						st.insert(nums[j]);  //存放nums[j],而不是c
+					}
+				}
+			}
+		}
+		return vec;
+	}
+       
+  题解2、双指针法
+         双指针法也是要排序的。首先，先进行第一遍指向整个数组，然后再用左右指针l=i+1,r=nums.size()+1,开始遍历，主要去重。
+       vector<vector<int>> threesum(vector<int>& nums)
+    {
+	//cout << nums.size();
+	vector<vector<int>>m;
+	vector<int>v;
+	sort(nums.begin(), nums.end());// 排序
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (nums[i] > 0) return m;  //第一个就大于0；就返回
+
+		//去重
+		if (i > 0 && nums[i - 1] == nums[i])
+		{
+			continue;
+		}
+		for (int l = i + 1, r = nums.size() - 1; r > l;)
+		{
+			int temp = nums[i] + nums[l] + nums[r];
+			if (temp < 0)  //小于0的话，说明左边的数还不够大 
+			{
+				l++;
+			}
+			else if (temp > 0)  //大于0的话，说明右边的数太大了
+				--r;
+			else {  //temp == 0
+				m.push_back({ nums[i], nums[l], nums[r] });
+				while (l < r && nums[r - 1] == nums[r]) r--; //去重
+				while (l < r && nums[l] == nums[l + 1]) l++;
+				r--;
+				l++;
+			}
+		}
+
+	}
+	return m;
+    }
+        
     
     
     
