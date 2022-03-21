@@ -32,7 +32,7 @@ public:
         //情况一：
         if (L == -2 || R == -2) return { -1,-1 };
         //情况三：
-        if (R - L > 1) return { L + 1,R - 1 };
+        if (R - L > 1) return { L + 1,R - 1 }; //为什么L要加1，R要减1，因为要使left<=right不成立才退出循环，此时，leftborder来到了right<left的位置了，同理rightborder也是。
         //情况二
         return { -1,-1 };
 
